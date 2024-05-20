@@ -5,3 +5,31 @@ out
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Rails defaults
+/tmp
+/log/*
+!/log/.keep
+/public/assets
+/public/packs
+/public/packs-test
+/storage/*
+!/storage/.keep
+.byebug_history
+
+# Database
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Environment variables
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.vscode
+
+# Gem management
+/vendor/bundle
