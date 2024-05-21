@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 module API
   module V1
     class CustomValidationError < StandardError; end
 
+    # Base controller for API/V1 to handle common errors
     class BaseController < ApplicationController
       respond_to :json
 
