@@ -8,6 +8,7 @@ out
 
 # Rails defaults
 /tmp
+/tmp/*
 /log/*
 !/log/.keep
 /public/assets
