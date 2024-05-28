@@ -6,6 +6,13 @@
 #
 # Example:
 #
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+for i in (1..100) do
+  Movie.create!(
+    title: "#{i}:" + Faker::Movie.title,
+    description: Faker::Lorem.paragraph(sentence_count: 3),
+    poster_url: Faker::Internet.url,
+    rating: Faker::Number.between(from: 1, to: 10),
+    release_date: Faker::Date.between(from: '1950-01-01', to: '2023-12-31'),
+    genre: Faker::Book.genre
+  )
+end

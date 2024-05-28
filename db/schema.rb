@@ -15,7 +15,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_192536) do
     t.string "title"
     t.text "description"
     t.string "poster_url"
-    t.float "rating", default: 0.0
+    t.decimal "rating", precision: 3, scale: 1, default: "0.0"
     t.string "genre"
     t.date "release_date"
     t.datetime "created_at", null: false
