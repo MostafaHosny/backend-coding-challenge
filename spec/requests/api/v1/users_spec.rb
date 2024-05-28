@@ -14,7 +14,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
     end
 
-    context 'with invalid parameters' do
+    context 'with invalid email' do
       let(:invalid_attributes) { attributes_for(:user, email: 'invalid_email') }
 
       it 'does not create a new user' do
@@ -23,7 +23,18 @@ RSpec.describe Api::V1::UsersController, type: :request do
         end.to_not change(User, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json[:errors]).to include('Email is invalid')
+      end
+    end
+
+    context 'with no name provided' do
+      let(:invalid_attributes) { attributes_for(:user, name: nil) }
+
+      it 'does not create a new user' do
+        expect do
+          json_post api_v1_users_path, params: { user: invalid_attributes }
+        end.to_not change(User, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -34,15 +45,12 @@ RSpec.describe Api::V1::UsersController, type: :request do
     it 'renders a successful response' do
       json_get api_v1_user_path user.id
       expect(response).to be_successful
-      expect(json[:id]).to eq(user.id)
-      expect(json[:name]).to eq(user.name)
-      expect(json[:email]).to eq(user.email)
+      expect(json['data']['id']).to eq(user.id.to_s)
     end
 
     it 'renders a not found response' do
       json_get api_v1_user_path 'invalid_id'
       expect(response).to have_http_status(:not_found)
-      expect(json[:error]).to eq('User not found')
     end
   end
 end

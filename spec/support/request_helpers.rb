@@ -1,4 +1,3 @@
-
 module RequestHelpers
   def json_headers
     {
@@ -10,7 +9,7 @@ module RequestHelpers
   def json
     return if response.body.blank?
 
-    Oj.load(response.body, symbol_keys: true)
+    JSON.parse(response.body, symbol_keys: true)
   end
 
   def json_post(url, params: {}, headers: {}, auth: false, auth_user: nil)
