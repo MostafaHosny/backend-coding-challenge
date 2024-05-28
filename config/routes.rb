@@ -3,7 +3,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:create, :show]
+      resources :users, only: %i[create show]
+      resources :movies, only: %i[create show]
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
