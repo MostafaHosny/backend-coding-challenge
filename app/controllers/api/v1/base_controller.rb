@@ -6,10 +6,7 @@ class Api::V1::BaseController < ApplicationController
   include Api::V1::Authenticatable
 
   rescue_from ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique do |e|
+    Rails.logger.error "Api::V1::BaseController: #{e.message}"
     render jsonapi_errors: e.record.errors, status: :unprocessable_entity
-  end
-
-  rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound do
-    render status: :not_found
   end
 end

@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-require 'rails_helper'
-
 RSpec.describe Api::V1::RatingsController, type: :request do
   describe 'Create movie ratings' do
     let!(:user) { create(:user) }

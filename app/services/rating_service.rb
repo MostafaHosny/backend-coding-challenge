@@ -14,6 +14,7 @@ class RatingService
     return false unless rating_valid?(rating)
 
     rating.save && update_average_rating
+    Rails.logger.info "New rating created for movie #{@movie.id} by user #{@user.id} with score #{@score}"
     rating
   end
 
