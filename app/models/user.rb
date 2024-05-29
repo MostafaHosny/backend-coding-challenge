@@ -8,5 +8,5 @@ class User < ApplicationRecord
 
   # relationships
   has_many :ratings, dependent: :destroy
-  has_many :rated_movies, through: :ratings
+  has_many :rated_movies, through: :ratings, source: :movie
 end

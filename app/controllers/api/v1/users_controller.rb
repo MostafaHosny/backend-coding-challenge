@@ -4,11 +4,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
     user = User.create!(user_params)
 
-    render json: UserSerializer.new(user), status: :created
+    render jsonapi: user, status: :created
   end
 
   def show
-    render json: UserSerializer.new(@user)
+    render jsonapi: @user, include: [:rated_movies]
   end
 
   private
