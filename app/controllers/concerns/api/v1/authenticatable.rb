@@ -10,7 +10,7 @@ module Api::V1::Authenticatable
         decoded = JsonWebToken.decode(token)
         @current_user = User.find(decoded[:user_id])
       rescue ActiveRecord::RecordNotFound, JWT::DecodeError => e
-        Rails.logger.error "Authenticatable error: #{e.message}"
+        Rails.logger.error "Api::V1::Authenticatable error: #{e.message}"
         render json: { errors: 'Unauthorized' }, status: :unauthorized
       end
     end
