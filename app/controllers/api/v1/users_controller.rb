@@ -1,5 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   before_action :load_user, only: :show
+  before_action :authenticate_user!, only: %i[show profile]
 
   def create
     user = User.create!(user_params)
@@ -8,7 +9,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
-    render jsonapi: @user, include: [:rated_movies]
+    render jsonapi: @user
+  end
+
+  def profile
+    render jsonapi: @current_user, include: [:rated_movies]
   end
 
   private

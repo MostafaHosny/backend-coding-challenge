@@ -8,6 +8,6 @@ class Movie < ApplicationRecord
   has_many :ratings, dependent: :destroy
 
   def update_average_rating
-    update(average_rating: ratings.average(:score).round(1))
+    update(average_rating: ratings.average(:score)&.round(1))
   end
 end

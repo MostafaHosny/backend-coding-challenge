@@ -1,21 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::MoviesController, type: :request do
+  let(:user) { create(:user) }
+
   describe 'Create movies' do
     context 'with valid movie parameters' do
       let(:valid_attributes) { attributes_for(:movie) }
 
       it 'creates a new movie' do
         expect do
-          json_post api_v1_movies_path, params: { movie: valid_attributes }
+          json_post api_v1_movies_path, params: { movie: valid_attributes }, auth_user: user
         end.to change(Movie, :count).by(1)
 
         expect(response).to have_http_status(:created)
-
         expect(json['data']['attributes']).to match(
           'title' => valid_attributes[:title],
           'description' => valid_attributes[:description],
-          'rating' => valid_attributes[:rating]&.round(1).to_s,
+          'average_rating' => valid_attributes[:average_rating]&.round(1).to_s,
           'poster_url' => valid_attributes[:poster_url],
           'genre' => valid_attributes[:genre],
           'release_date' => valid_attributes[:release_date].to_formatted_s(:iso8601)
@@ -28,7 +29,7 @@ RSpec.describe Api::V1::MoviesController, type: :request do
 
       it 'does not create a new movie' do
         expect do
-          json_post api_v1_movies_path, params: { movie: invalid_attributes }
+          json_post api_v1_movies_path, params: { movie: invalid_attributes }, auth_user: user
         end.not_to change(Movie, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
@@ -40,13 +41,14 @@ RSpec.describe Api::V1::MoviesController, type: :request do
     let(:movie) { create(:movie) }
 
     it 'renders a successful response' do
-      json_get api_v1_movie_path movie.id
+      json_get(api_v1_movie_path(movie.id), auth_user: user)
+
       expect(response).to be_successful
       expect(json['data']['id']).to eq(movie.id.to_s)
     end
 
     it 'renders a not found response' do
-      json_get  api_v1_movie_path 'invalid_id'
+      json_get  api_v1_movie_path 'invalid_id', auth_user: user
       expect(response).to have_http_status(:not_found)
     end
   end

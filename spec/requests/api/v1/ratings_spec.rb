@@ -12,7 +12,7 @@ RSpec.describe Api::V1::RatingsController, type: :request do
 
       it 'creates a new rating' do
         json_post "/api/v1/movies/#{movie.id}/ratings",
-                  params: { rating: valid_attributes }
+                  params: { rating: valid_attributes }, auth_user: user
 
         expect(response).to have_http_status(:created)
         expect(json['data']['attributes']['score']).to eq(valid_attributes[:score])
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::RatingsController, type: :request do
 
       it 'returns an error message' do
         json_post "/api/v1/movies/#{movie.id}/ratings",
-                  params: { rating: invalid_attributes }
+                  params: { rating: invalid_attributes }, auth_user: user
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json['errors']).to_not be_empty
@@ -33,7 +33,7 @@ RSpec.describe Api::V1::RatingsController, type: :request do
 
     context 'when movie does not exist' do
       it 'returns a not found error' do
-        json_post('/api/v1/movies/invalid_id/ratings', params: { rating: { score: 8 } })
+        json_post('/api/v1/movies/invalid_id/ratings', params: { rating: { score: 8 } }, auth_user: user)
         expect(response).to have_http_status(:not_found)
       end
     end

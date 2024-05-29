@@ -43,7 +43,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
     let(:user) { create(:user) }
 
     it 'renders a successful response' do
-      json_get api_v1_user_path user.id
+      json_get api_v1_user_path(user.id), auth_user: user
       expect(response).to be_successful
       expect(json['data']['id']).to eq(user.id.to_s)
     end
@@ -59,7 +59,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'renders a successful response with rated movies' do
-        json_get api_v1_user_path(user.id)
+        json_get api_v1_user_path(user.id), auth_user: user
         expect(response).to be_successful
         expect(json['data']['relationships']['rated_movies']['data'].size).to eq(3)
         rated_movie_ids = json['data']['relationships']['rated_movies']['data'].map { |movie| movie['id'].to_i }
