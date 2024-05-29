@@ -5,4 +5,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, presence: true
+
+  # relationships
+  has_many :ratings, dependent: :destroy
+  has_many :rated_movies, through: :ratings
 end

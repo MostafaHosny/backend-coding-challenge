@@ -3,7 +3,7 @@ class MovieSerializer
   include JSONAPI::Serializer
   attributes :title, :description, :poster_url, :release_date, :genre
 
-  attribute :rating do |object|
-    object.rating&.round(1)
+  attribute :average_rating do |object|
+    object.average_rating&.round(1)
   end
 end
