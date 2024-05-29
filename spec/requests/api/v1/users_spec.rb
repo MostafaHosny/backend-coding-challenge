@@ -48,6 +48,25 @@ RSpec.describe Api::V1::UsersController, type: :request do
       expect(json['data']['id']).to eq(user.id.to_s)
     end
 
+    context 'when the user has rated movies' do
+      let(:user) { create(:user) }
+      let!(:rated_movies) { create_list(:movie, 3) }
+
+      before do
+        rated_movies.each do |movie|
+          create(:rating, user:, movie:)
+        end
+      end
+
+      it 'renders a successful response with rated movies' do
+        json_get api_v1_user_path(user.id)
+        expect(response).to be_successful
+        expect(json['data']['relationships']['rated_movies']['data'].size).to eq(3)
+        rated_movie_ids = json['data']['relationships']['rated_movies']['data'].map { |movie| movie['id'].to_i }
+        expect(rated_movie_ids).to match_array(rated_movies.map(&:id))
+      end
+    end
+
     it 'renders a not found response' do
       json_get api_v1_user_path 'invalid_id'
       expect(response).to have_http_status(:not_found)
