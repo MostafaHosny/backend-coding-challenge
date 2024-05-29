@@ -14,6 +14,7 @@ class RatingService
     return false unless rating_valid?(rating)
 
     rating.save && update_average_rating
+    rating
   end
 
   private

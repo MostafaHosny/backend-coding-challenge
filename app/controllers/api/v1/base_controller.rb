@@ -8,7 +8,7 @@ class Api::V1::BaseController < ApplicationController
     render jsonapi_errors: e.record.errors, status: :unprocessable_entity
   end
 
-  rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound do |e|
+  rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound do
     render status: :not_found
   end
 end

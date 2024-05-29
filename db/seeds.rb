@@ -11,7 +11,7 @@ for i in (1..100) do
     title: "#{i}:" + Faker::Movie.title,
     description: Faker::Lorem.paragraph(sentence_count: 3),
     poster_url: Faker::Internet.url,
-    rating: Faker::Number.between(from: 1, to: 10),
+    average_rating: Faker::Number.between(from: 1, to: 10),
     release_date: Faker::Date.between(from: '1950-01-01', to: '2023-12-31'),
     genre: Faker::Book.genre
   )

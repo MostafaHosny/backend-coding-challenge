@@ -7,7 +7,7 @@ RSpec.describe RatingService, type: :service do
   let(:movie) { create(:movie) }
 
   describe '#call' do
-    context 'with valid rating parameters' do
+    context 'with valid movie_rating parameters' do
       let(:score) { 8 }
       let(:service) { described_class.new(movie, user, score) }
 
