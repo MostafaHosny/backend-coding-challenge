@@ -3,10 +3,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users, only: %i[create show]
+      resources :users, only: %i[create show], path_names: { create: 'signup' }
       resources :movies, only: %i[create show] do
         resources :ratings, only: [:create]
       end
+      post 'login', to: 'authentication#create'
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -25,6 +25,8 @@ gem 'puma', '>= 5.0'
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt', '~> 3.1.7'
 
+# use JWT token for user auth
+gem 'jwt'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
@@ -46,6 +48,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'byebug'
   gem 'database_cleaner'
+  gem 'dotenv'
 end
 
 group :test do

@@ -1,5 +1,5 @@
-class Api::V1::MoviesController < ApplicationController
-  before_action :find_movie, only: :show
+class Api::V1::MoviesController < Api::V1::BaseController
+  before_action :set_movie, only: :show
 
   def create
     movie = Movie.create!(movie_params)
@@ -16,7 +16,7 @@ class Api::V1::MoviesController < ApplicationController
     params.require(:movie).permit(:title, :description, :poster_url, :rating, :release_date, :genre)
   end
 
-  def find_movie
+  def set_movie
     @movie = Movie.find(params[:id])
   end
 end
