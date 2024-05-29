@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         resources :ratings, only: [:create]
       end
       post 'login', to: 'authentication#create'
+      get 'profile', to: 'users#profile'
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

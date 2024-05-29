@@ -48,10 +48,16 @@ RSpec.describe Api::V1::UsersController, type: :request do
       expect(json['data']['id']).to eq(user.id.to_s)
     end
 
-    context 'when the user has rated movies' do
-      let(:user) { create(:user) }
-      let!(:rated_movies) { create_list(:movie, 3) }
+    it 'renders a not found response' do
+      json_get api_v1_user_path 'invalid_id'
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 
+  describe 'User Profile' do
+    let(:user) { create(:user) }
+    context 'when user is authorized' do
+      let!(:rated_movies) { create_list(:movie, 3) }
       before do
         rated_movies.each do |movie|
           create(:rating, user:, movie:)
@@ -59,7 +65,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'renders a successful response with rated movies' do
-        json_get api_v1_user_path(user.id), auth_user: user
+        json_get api_v1_profile_path, auth_user: user
         expect(response).to be_successful
         expect(json['data']['relationships']['rated_movies']['data'].size).to eq(3)
         rated_movie_ids = json['data']['relationships']['rated_movies']['data'].map { |movie| movie['id'].to_i }
@@ -67,9 +73,11 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
     end
 
-    it 'renders a not found response' do
-      json_get api_v1_user_path 'invalid_id'
-      expect(response).to have_http_status(:not_found)
+    context 'when user unauthorized' do
+      it 'renders unauthorized status' do
+        json_get api_v1_profile_path
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 end
