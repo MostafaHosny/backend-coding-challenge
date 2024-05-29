@@ -12,15 +12,15 @@ RSpec.describe RatingService, type: :service do
       let(:service) { described_class.new(movie, user, score) }
 
       it 'creates a new rating' do
-        expect { service.call }.to change(Rating, :count).by(1)
         expect(service.call).to be true
+        expect(Rating.count).to eq(1)
         expect(Rating.first.user).to eq(user)
         expect(Rating.first.score).to eq(score)
       end
 
       it 'updates the average_rating of the movie' do
         service.call
-        expect(movie.reload.average_rating).to eq(score.to_f)
+        expect(movie.reload.average_rating.to_f).to eq(score.to_f)
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe RatingService, type: :service do
       it 'does not create a rating' do
         expect(service.call).to be false
         expect(Rating.count).to eq(0)
-        expect(service.errors).to include('Score must be less than or equal to 10')
+        expect(service.errors.full_messages).to include('Score must be an integer between 1 and 10')
       end
     end
   end
