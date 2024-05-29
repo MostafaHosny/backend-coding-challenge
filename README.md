@@ -175,7 +175,7 @@ Creates a new user account.
 ```
 
 
-*GET GET /api/v1/profile**
+**GET /api/v1/profile**
 - Retrieves the currently authenticated user's profile, including their rated movies. Requires authentication..
 - Include the JWT token in the Authorization header.
 
@@ -238,7 +238,7 @@ Creates a new user account.
 
 - Creates a new rating for a specified movie.
 - This endpoint requires authentication.
-- Authorization: Bearer your_jwt_token
+- Authorization: Bearer **your_jwt_token**
 
 **Request Body:**
 
@@ -258,9 +258,7 @@ Creates a new user account.
     "id": "123", 
     "type": "ratings",
     "attributes": {
-      "score": 8,
-      "created_at": "2023-11-23T16:45:00Z",
-      "updated_at": "2023-11-23T16:45:00Z"
+      "score": 8
     },
     "relationships": {
       "user": {
